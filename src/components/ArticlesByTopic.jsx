@@ -1,21 +1,31 @@
 import {useParams} from 'react-router-dom'
 import {useState, useEffect} from 'react'
-import { fetchAllArticles } from '../api'
+import { fetchArticlesByTopic } from '../api'
 import ArticleCard from './ArticleCard'
 
 export default function ArticlesByTopic () {
     const {topic} = useParams()
     const [articles, setArticles] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     
     useEffect(() => {
-        fetchAllArticles().then((data) => {
-            const filteredByTopic = data.filter((article) => {
-                return article.topic === topic
-            })
-            setArticles(filteredByTopic)
+        setIsLoading(true)
+        fetchArticlesByTopic(topic).then((data) => {
+            
+            setArticles(data)
+            setIsLoading(false)
         })
     }, [topic])
 
+    if(isLoading) {
+        return (
+            <h3>Loading</h3>
+        )
+    }
+
+    else {
+
+    
     return (
         <section className="section__articles">
             {articles.map(({title, body, article_id, author}) => {
@@ -24,4 +34,5 @@ export default function ArticlesByTopic () {
             )})}
         </section>
     )
+    }
 }

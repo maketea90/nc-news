@@ -10,3 +10,10 @@ export const fetchAllArticles = () => {
         return res.data
     })
 }
+
+export const fetchArticlesByTopic = (topic) => {
+    return myApi.get(`/articles?topic=${topic}`).then((res) => {
+        console.log(res.data)
+        return res.data
+    })
+}
