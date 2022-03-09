@@ -1,4 +1,4 @@
-import {useParams} from 'react-router-dom'
+import {useParams, Link} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import { fetchArticlesByTopic } from '../api'
 import ArticleCard from './ArticleCard'
@@ -30,7 +30,9 @@ export default function ArticlesByTopic () {
         <section className="section__articles">
             {articles.map(({title, body, article_id, author}) => {
                 return (
+                    <Link to={`/article/${article_id}`}>
                     <ArticleCard title={title} key={article_id} body={body} author={author}/>
+                    </Link>
             )})}
         </section>
     )
