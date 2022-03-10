@@ -24,3 +24,9 @@ export const fetchArticleById = (id) => {
         return res.data
     })
 }
+
+export const patchArticleById = (id, voteUpdate) =>  {
+    return myApi.patch(`/articles/${id}`, voteUpdate).then((res) => {
+        return res.data
+    })
+}
