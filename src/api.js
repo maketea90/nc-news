@@ -17,3 +17,10 @@ export const fetchArticlesByTopic = (topic) => {
         return res.data
     })
 }
+
+export const fetchArticleById = (id) => {
+    return myApi.get(`/articles/${id}`).then((res) => {
+        console.log(res.data)
+        return res.data
+    })
+}

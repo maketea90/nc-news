@@ -13,6 +13,7 @@
 }
 
 .ArticleCard {
+  padding: 10px;
   border: solid black;
   background-color: lightgreen;
   display: flex;

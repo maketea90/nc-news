@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { fetchAllArticles } from "../api"
 import ArticleCard from "./ArticleCard"
+import { Link } from "react-router-dom"
 
 export default function AllArticles () {
     const [articles, setArticles] = useState([])
@@ -25,7 +26,9 @@ export default function AllArticles () {
         <section className="section__articles">
             {articles.map(({title, body, article_id, topic, author}) => {
                 return (
+                    <Link to={`/article/${article_id}`}>
                     <ArticleCard title={title} key={article_id} body={body} author={author}/>
+                    </Link>
             )})}
         </section>
     )

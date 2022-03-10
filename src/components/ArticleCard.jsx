@@ -1,4 +1,4 @@
-export default function ArticleCard ({title, body, author}) {
+export default function ArticleCard ({article_id, title, body, author}) {
     return (
         <article className='ArticleCard'>
         <h3>{title}</h3>
