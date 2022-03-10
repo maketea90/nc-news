@@ -18,7 +18,7 @@ export default function ArticleById () {
     }, [article_id])
 
     function voteCrement(amount) {
-        patchArticleById(article_id, {}).catch((err) => {
+        patchArticleById(article_id, {inc_votes: amount}).catch((err) => {
             setError({err})
         })
         const crementedVotes = votes + amount
