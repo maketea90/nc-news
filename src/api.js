@@ -30,3 +30,10 @@ export const patchArticleById = (id, voteUpdate) =>  {
         return res.data
     })
 }
+
+export const fetchCommentsById = (id) => {
+    return myApi.get(`/articles/${id}/comments`).then((res) => {
+        console.log(res.data)
+        return res.data
+    })
+}

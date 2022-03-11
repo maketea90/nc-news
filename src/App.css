@@ -29,4 +29,7 @@
   }
 }
 
-
+.CommentCard {
+  background-color: #61dafb;
+  justify-content: left;
+}
