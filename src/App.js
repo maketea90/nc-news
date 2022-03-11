@@ -4,9 +4,13 @@ import AllArticles from './components/AllArticles';
 import Home from './components/Home';
 import ArticlesByTopic from './components/ArticlesByTopic';
 import ArticleById from './components/ArticleById';
+import { UserContext } from './contexts/loggedInUser';
+import {useState} from 'react'
 
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState('grumpy19')
   return (
+    <UserContext.Provider value={{loggedInUser, setLoggedInUser}}>
     <BrowserRouter>
     <div className="App">
       <h1>NC-News</h1>
@@ -25,6 +29,7 @@ function App() {
       </Routes>
     </div>
     </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 
