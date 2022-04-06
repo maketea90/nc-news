@@ -7,15 +7,17 @@ export default function ArticlesByTopic () {
     const {topic} = useParams()
     const [articles, setArticles] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [sortBy, setSortBy] = useState('created_at')
+    const [order, setOrder] = useState('desc')
     
     useEffect(() => {
         setIsLoading(true)
-        fetchArticlesByTopic(topic).then((data) => {
+        fetchArticlesByTopic(topic, sortBy, order).then((data) => {
             
             setArticles(data)
             setIsLoading(false)
         })
-    }, [topic])
+    }, [topic, sortBy, order])
 
     if(isLoading) {
         return (
@@ -27,6 +29,22 @@ export default function ArticlesByTopic () {
 
     
     return (
+        <div>
+            <br>
+        </br>
+        <section className="buttons">
+            Sort by:
+            <button onClick={() => {setSortBy('created_at')}}>date</button>
+            <button onClick={() => {setSortBy('votes')}}>votes</button>
+            <br>
+            </br>
+            Order by:
+            <button onClick={() => {setOrder('desc')}}>Descending order</button>
+            <button onClick={() => {setOrder('asc')}}>Ascending order</button>
+            {/* <button onClick={() => {setSortBy('')}}></button> */}
+        </section>
+        <br>
+        </br>
         <section className="section__articles">
             {articles.map(({title, body, article_id, author}) => {
                 return (
@@ -35,6 +53,7 @@ export default function ArticlesByTopic () {
                     </Link>
             )})}
         </section>
+        </div>
     )
     }
 }

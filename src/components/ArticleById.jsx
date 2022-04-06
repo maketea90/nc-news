@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { fetchArticleById, fetchCommentsById, patchArticleById } from "../api";
+import { fetchArticleById, fetchCommentsById, patchArticleById, postCommentById, deleteCommentById } from "../api";
 import ErrorComponent from "./ErrorComponent";
+import { UserContext } from "../contexts/loggedInUser";
 
 export default function ArticleById () {
+    const user = useContext(UserContext)
     const {article_id} = useParams()
     const [article, setArticle] = useState([])
     const [votes, setVotes] = useState(0)
     const [disable, setDisable] = useState(0)
     const [error, setError] = useState(null)
     const [comments, setComments] = useState([])
+    //const [input, setInput] = useState('')
+    const [newComment, setNewComment] = useState('')
 
     useEffect(() => {
         fetchArticleById(article_id).then((data) => {
@@ -21,6 +25,29 @@ export default function ArticleById () {
         })
     }, [article_id])
 
+    const handleSubmit = (comment) => {
+        postCommentById(article_id, 
+            {username: user, body: comment}).then((comment) => {
+            setComments([...comments, comment[0]])
+        })
+    }
+
+    const deleteComment = (id) => {
+        deleteCommentById(id).then((response) => {
+            const updatedComments = comments.filter((comment) => {
+                return comment.comment_id !== id
+            })
+            setComments(updatedComments)
+        })
+    }
+
+    const onSubmit = (event) => {
+        event.preventDefault()
+    
+        handleSubmit(newComment)
+        setNewComment('')
+      }
+
     function voteCrement(amount) {
         patchArticleById(article_id, {inc_votes: amount}).catch((err) => {
             setError({err})
@@ -30,7 +57,6 @@ export default function ArticleById () {
         const updateDisable = disable + amount
         setDisable(updateDisable)
     }
-
 
     if (error) {
         return <ErrorComponent message={error} />;
@@ -55,15 +81,55 @@ export default function ArticleById () {
             </h3>
             <ul>
             {comments.map((comment) => {
+                if(comment.author === user){
+                    return (
+                        <article>
+                        <li key={comment.comment_id}>
+                        {comment.body}
+                        </li>
+                        <button onClick={() => {deleteComment(comment.comment_id)}}>X</button>
+                        </article>
+                    )
+                } else {
                 return (
                     <li key={comment.comment_id}>
                         {comment.body}
                     </li>
                 )
+                }
             })}
             </ul>
+            <form onSubmit={onSubmit}>
+                <input  value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder='Add a comment'/>
+                <br></br>
+                <button type='submit' className='button'>Add a comment</button>
+            </form>
         </section>
         </section>
         // <LoneArticle key={article_id}/>
     )
 }
+// const AddTodo = (props) => {
+//     const [newItem, setNewItem] = useState('')
+//     const handleSubmit = (event) => {
+//       event.preventDefault()
+  
+//       props.setTodos((currentTodos) => {
+//         return [newItem, ...currentTodos]
+//       })
+  
+//       setNewItem('')
+//     }
+//     return (
+//       <form onSubmit={handleSubmit}>
+//         <label>add a new item
+//           <input 
+//           value={newItem}
+//           onChange={(event) => {setNewItem(event.target.value)}}/>
+//         </label>
+//         <br></br>
+//         <button type='submit' className='button'>Add item</button>
+//       </form>
+//     )
+//     // return <button onClick={() => addListItem()} className='button'>Add item</button>
+//   }

@@ -5,12 +5,12 @@ import Home from './components/Home';
 import ArticlesByTopic from './components/ArticlesByTopic';
 import ArticleById from './components/ArticleById';
 import { UserContext } from './contexts/loggedInUser';
-import {useState} from 'react'
+import {useState} from 'react';
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState('grumpy19')
+  const [loggedInUser, setLoggedInUser] = useState('jessjelly')
   return (
-    <UserContext.Provider value={{loggedInUser, setLoggedInUser}}>
+    <UserContext.Provider value={loggedInUser}>
     <BrowserRouter>
     <div className="App">
       <h1>NC-News</h1>
